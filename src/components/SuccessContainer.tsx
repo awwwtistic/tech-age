@@ -2,8 +2,9 @@
 import { resetCart } from "@/redux/shoppersSlice";
 import { StoreState } from "@/types";
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 import Loader from "./Loader";
 import Link from "next/link";
 import {
@@ -17,44 +18,46 @@ const SuccessContainer = ({ id }: { id: string }) => {
   const { cart } = useSelector((state: StoreState) => state?.shoppers);
   const dispatch = useDispatch();
   const { data: session } = useSession();
-  const [totalAmt, setTotalAmt] = useState(0);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    let price = 0;
-    cart.map((item) => {
-      price += item?.price * item?.quantity;
-      return price;
-    });
-    setTotalAmt(price);
-  }, [cart]);
 
-  const handleSaveOrder = async () => {
+  const handleSaveOrder = useCallback(async () => {
     setLoading(true);
-    const response = await fetch("/api/saveorder", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        cart,
-        email: session?.user?.email as string,
-        id: id,
-        totalAmt,
-      }),
-    });
+    try {
+      const totalAmt = cart.reduce(
+        (sum, item) => sum + item?.price * item?.quantity,
+        0
+      );
+      const response = await fetch("/api/saveorder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cart,
+          email: session?.user?.email,
+          id: id,
+          totalAmt,
+        }),
+      });
 
-    const data = await response.json();
-    if (data?.success) {
+      const data = await response.json();
+      if (data?.success) {
+        dispatch(resetCart());
+      } else {
+        toast.error(data?.message || "Failed to save your order");
+      }
+    } catch {
+      toast.error("Failed to save your order");
+    } finally {
       setLoading(false);
-      dispatch(resetCart());
     }
-  };
+  }, [cart, id, session?.user?.email, dispatch]);
 
   useEffect(() => {
     if (session?.user && cart.length) {
       handleSaveOrder();
     }
-  }, [session?.user, cart?.length]);
+  }, [session?.user, cart?.length, handleSaveOrder]);
   return (
     <div>
       {loading ? (

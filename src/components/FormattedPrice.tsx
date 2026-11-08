@@ -7,7 +7,7 @@ interface Props {
 
 const FormattedPrice = ({ amount, className }: Props) => {
   const priceFormat = new Number(amount).toLocaleString("en-US", {
-    currency: "INR",
+    currency: "USD",
     style: "currency",
     minimumFractionDigits: 2,
   });

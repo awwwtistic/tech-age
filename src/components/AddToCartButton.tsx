@@ -20,7 +20,7 @@ const AddToCartButton = ({ className, item }: Props) => {
     try {
       setLoading(true);
       dispatch(addToCart(item));
-      toast.success(`${item?.title.substring(12, 0)} added successfully!`);
+      toast.success(`${item?.title.substring(0, 12)} added successfully!`);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message);

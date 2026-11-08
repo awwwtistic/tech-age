@@ -9,7 +9,7 @@ import { LuAsterisk } from "react-icons/lu";
 export const SignInForm = () => {
   const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    toast.success("sign in on going");
+    toast.error("Credential sign-in is not available yet. Please use Google or GitHub.");
   };
   return (
     <div>
@@ -20,13 +20,13 @@ export const SignInForm = () => {
             Username or email address{" "}
             <LuAsterisk className="text-lightRed text-xs" />
           </Label>
-          <Input type="email" placeholder="john@youremail.com" required />
+          <Input id="email" type="email" placeholder="john@youremail.com" required />
         </div>
         <div className="flex flex-col gap-2">
           <Label htmlFor="password">
             Password <LuAsterisk className="text-lightRed text-xs" />
           </Label>
-          <Input type="password" placeholder="ex:#123456$" required />
+          <Input id="password" type="password" placeholder="ex:#123456$" required />
         </div>
         <Button className="rounded-md mt-3 bg-lightRed">Sign in</Button>
       </form>

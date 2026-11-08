@@ -5,11 +5,13 @@ interface Props {
   placeholder: string;
   className?: string;
   required?: boolean;
+  id?: string;
 }
 
-const Input = ({ type, placeholder, className, required }: Props) => {
+const Input = ({ type, placeholder, className, required, id }: Props) => {
   return (
     <input
+      id={id}
       type={type}
       placeholder={placeholder}
       className={twMerge(

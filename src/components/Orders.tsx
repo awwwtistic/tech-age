@@ -53,14 +53,13 @@ const Orders = () => {
       await deleteDoc(
         doc(db, "users", session?.user?.email as string, "orders", id)
       );
+      toast.success("Order deleted successfully");
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
         toast.error("An unexpected error occurred.");
       }
-    } finally {
-      toast.success("deleted action dispatched");
     }
   };
 

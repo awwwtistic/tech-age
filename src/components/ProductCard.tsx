@@ -15,13 +15,17 @@ const ProductCard = ({ item }: { item: ProductData }) => {
     >
       <div className="overflow-hidden">
         <Link href={`/product/${item?.slug?.current}`}>
-          <Image
-            src={urlFor(item?.image)?.url()}
-            alt={item?._type}
-            width={500}
-            height={500}
-            className="w-full h-72 object-cover group-hover:scale-105 hoverEffect"
-          />
+          {item?.image ? (
+            <Image
+              src={urlFor(item.image)?.url()}
+              alt={item?._type}
+              width={500}
+              height={500}
+              className="w-full h-72 object-cover group-hover:scale-105 hoverEffect"
+            />
+          ) : (
+            <div className="w-full h-72 bg-bgLight" />
+          )}
         </Link>
       </div>
       <div className="px-6 flex flex-col items-center gap-2">

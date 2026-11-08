@@ -54,13 +54,17 @@ const CartItem = ({ item, cart }: Props) => {
           className="text-primeColor hover:text-red-500 cursor-pointer duration-300"
         />
         <Link href={`/product/${item?.slug?.current}`}>
-          <Image
-            src={urlFor(item?.image).url()}
-            alt="product image"
-            width={200}
-            height={200}
-            className="w-32 h-32 object-contain"
-          />
+          {item?.image ? (
+            <Image
+              src={urlFor(item.image).url()}
+              alt="product image"
+              width={200}
+              height={200}
+              className="w-32 h-32 object-contain"
+            />
+          ) : (
+            <div className="w-32 h-32 bg-bgLight" />
+          )}
         </Link>
         <h1 className="font-semibold">{item?.title.substring(0, 20)}</h1>
       </div>

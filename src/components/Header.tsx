@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HiMenuAlt2 } from "react-icons/hi";
+import MobileNav from "./MobileNav";
 import SearchInput from "./SearchInput";
 import Logo from "./Logo";
 import { getSession } from "@/lib/manageSession";
@@ -55,7 +55,10 @@ const Header = async () => {
             </Link>
           )}
         </div>
-        <HiMenuAlt2 className="inline-flex md:hidden cursor-pointer w-8 h-6" />
+        <MobileNav
+          signedIn={!!session?.user}
+          isAdmin={session?.user?.email === process.env.ADMIN_EMAIL}
+        />
       </div>
     </header>
   );

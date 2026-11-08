@@ -29,16 +29,18 @@ const SignInPage = async () => {
               <Image src={googleImage} alt="googleImage" className="w-8" />
               <button type="submit">Signin with Google</button>
             </form>
-            <form
-              action={async () => {
-                "use server";
-                await signIn("google", { redirectTo: "/" });
-              }}
-              className="flex items-center gap-1 border border-slate-500 font-semibold bg-slate-50 px-2 py-1.5 rounded-md hover:bg-slate-200 duration-300 ease-in-out"
-            >
-              <Image src={githubImage} alt="githubImage" className="w-8" />
-              <button type="submit">Signin with Github</button>
-            </form>
+            {process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET && (
+              <form
+                action={async () => {
+                  "use server";
+                  await signIn("github", { redirectTo: "/" });
+                }}
+                className="flex items-center gap-1 border border-slate-500 font-semibold bg-slate-50 px-2 py-1.5 rounded-md hover:bg-slate-200 duration-300 ease-in-out"
+              >
+                <Image src={githubImage} alt="githubImage" className="w-8" />
+                <button type="submit">Signin with Github</button>
+              </form>
+            )}
           </div>
         </div>
         <SignInForm />
